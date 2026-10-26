@@ -1,0 +1,230 @@
+{
+  "main": {
+    "id": "9ffe36c2cac9dc69",
+    "type": "split",
+    "children": [
+      {
+        "id": "da678b9d0ae0e752",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0bb62b087f983779",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "typing/py310/602-union-operator.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "602-union-operator"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4c9d62fa2ba28b3e",
+    "type": "split",
+    "children": [
+      {
+        "id": "2802a0e8ee5c2a50",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6d02b2c829435ad9",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "f607ef1ac5b8c58f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "c289c9f7c9881594",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "cbe233bd53b176f3",
+    "type": "split",
+    "children": [
+      {
+        "id": "745f1415f524d9fd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a7cf1b3b6cbfc00d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "typing/py310/602-union-operator.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "226d7d850940e3ad",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "typing/py310/602-union-operator.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "6e513f49ba3e0fa0",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "7e58ff2d90a257d9",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "9501aa8ff56ee2ab",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "typing/py310/602-union-operator.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "0bb62b087f983779",
+  "lastOpenFiles": [
+    "language/py311/705-fine-grained-error-locations.md",
+    "library/py38/405-importlib-metadata.md",
+    "library/py36/205-pathlib-standardization.md",
+    "ROADMAP.md",
+    "language/py315/1503-unpacking-in-comprehensions.md",
+    "language/py312/804-per-interpreter-gil.md",
+    "language/py35/101-async-await.md",
+    "README.md",
+    "language/py312/801-type-parameter-syntax.md",
+    "language/py36/201-fstrings.md",
+    "language/py35/103-unpacking-generalizations.md",
+    "versions/py313.md",
+    "versions/py314.md",
+    "versions/py315.md",
+    "versions/py37.md",
+    "versions/py36.md",
+    "language/py38/402-positional-only-parameters.md",
+    "language/py38/401-walrus-operator.md",
+    "language/py37/303-dict-order-guaranteed.md",
+    "language/py36/203-async-generators-comprehensions.md",
+    "fix_vault_links.py",
+    "versions/py35.md",
+    "library/py314/1404-free-threading-jit-maturation.md",
+    "language/py314/1403-inline-syntax-improvements.md",
+    "library/py313/904-enhanced-interactive-repl.md",
+    "language/py313/902-experimental-jit.md",
+    "typing/py312/803-override-decorator.md",
+    "sources",
+    "versions",
+    "typing/py39",
+    "typing/py38",
+    "typing/py37",
+    "typing/py36",
+    "typing/py35",
+    "typing/py315",
+    "typing/py314"
+  ]
+}
