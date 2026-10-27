@@ -41,7 +41,35 @@ proc = subprocess.run(
 
 ---
 
-## 3. 最小コード例
+## 3. 従来APIとの比較
+
+Python 3.4 以前で出力をキャプチャしエラー検証を行う手順と、Python 3.5 の `subprocess.run()` の比較です。
+
+```python
+import subprocess
+import sys
+
+cmd = [sys.executable, "-c", "print('Command executed')"]
+
+# --- 従来（Python 3.4以前）: check_output や Popen の混在 ---
+# 出力取得には check_output()、終了コードのみには check_call() と使い分けが必要で、
+# 標準エラー出力の結合やタイムアウト制御には Popen の明示的ハンドリングが求められた。
+try:
+    legacy_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    print("Legacy stdout (bytes):", legacy_output)
+except subprocess.CalledProcessError as e:
+    print("Failed with code:", e.returncode)
+
+# --- Python 3.5+: subprocess.run() ---
+# capture_output, text, check などのフラグを統合した単一の推奨インターフェース
+result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+print("Modern stdout (str):", result.stdout.strip())
+print("Modern returncode:", result.returncode)
+```
+
+---
+
+## 4. 最小コード例
 
 ```python
 import subprocess
@@ -67,7 +95,7 @@ Stdout: Hello from subprocess!
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **`shell=True` のセキュリティリスク**:
   信頼できないユーザー入力をコマンド文字列に含めて `shell=True` を指定すると、重大なコマンドインジェクション脆弱性が発生します。原則として引数はリスト形式 `['cmd', 'arg1', ...]` で渡し、`shell=False`（デフォルト）で使用してください。
@@ -83,14 +111,14 @@ Stdout: Hello from subprocess!
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py35|Python 3.5 概要]]
 - [[ROADMAP|全体ロードマップ]]
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [Python 3.5 What's New: subprocess.run()](https://docs.python.org/3/whatsnew/3.5.html#subprocess)
 - [Python 公式ドキュメント: subprocess](https://docs.python.org/3/library/subprocess.html)

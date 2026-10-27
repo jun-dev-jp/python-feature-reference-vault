@@ -43,7 +43,40 @@ except* TypeError as e:
 
 ---
 
-## 3. 最小コード例
+## 3. 従来のエラーハンドリングとの比較
+
+Python 3.10 以前の単一例外モデルや集約例外クラスの手動管理と、Python 3.11 の `ExceptionGroup` / `except*` 構文の比較です。
+
+```python
+# --- 従来（Python 3.10以前）: 複数エラーのリスト保持と手動ループ判定 ---
+# 複数の並行エラーを表現する言語構文がなく、独自クラス内でリストを保持して
+# 単一の except 節で受け取り、内部で isinstance による手動仕分けが必要だった。
+class LegacyMultiError(Exception):
+    def __init__(self, errors):
+        self.errors = errors
+
+try:
+    raise LegacyMultiError([ValueError("invalid val"), TypeError("wrong type")])
+except LegacyMultiError as err:
+    for e in err.errors:
+        if isinstance(e, ValueError):
+            print("Legacy handled ValueError:", e)
+        elif isinstance(e, TypeError):
+            print("Legacy handled TypeError:", e)
+
+# --- Python 3.11+: ExceptionGroup と except* 構文 ---
+# 言語組み込みの構文で、一致する型ごとに宣言的かつ個別にブロックを分けて捕捉可能
+try:
+    raise ExceptionGroup("Batch errors", [ValueError("invalid val"), TypeError("wrong type")])
+except* ValueError as eg:
+    print("Modern handled ValueError:", eg.exceptions)
+except* TypeError as eg:
+    print("Modern handled TypeError:", eg.exceptions)
+```
+
+---
+
+## 4. 最小コード例
 
 Python 3.11 以降で動作する例外グループの送出と `except*` による分割捕捉の例です。
 
@@ -83,7 +116,7 @@ Handled 1 TypeError(s):
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **`asyncio.TaskGroup` との併用**:
   Python 3.11 で追加された `asyncio.TaskGroup` は、管理下のいずれかのタスクが失敗すると残りをキャンセルし、すべての失敗を `ExceptionGroup` にまとめて送出します。タスクグループのエラーハンドリングには `except*` が必須となります。
@@ -100,7 +133,7 @@ Handled 1 TypeError(s):
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py311|Python 3.11 概要]]
 - [[language/py35/101-async-await|101-async-await]]
@@ -108,7 +141,7 @@ Handled 1 TypeError(s):
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 654 – Exception Groups and except*](https://peps.python.org/pep-0654/)
 - [Python 3.11 What's New: Exception Groups and except*](https://docs.python.org/3/whatsnew/3.11.html#pep-654-exception-groups-and-except)

@@ -34,7 +34,35 @@ PEP 604 は、ビット演算子のパイプシンボル `|` をオーバーロ�
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.9 以前の `typing.Union` / `Optional` と、Python 3.10 の型ユニオン演算子（`|`）の比較です。
+
+```python
+# --- 従来（Python 3.9以前）: typing モジュールからのインポートが必須 ---
+from typing import Optional, Union
+
+def legacy_func(val: Union[int, str], timeout: Optional[float] = None) -> Union[str, None]:
+    # 実行時型チェックにはタプルが必要
+    if isinstance(val, (int, str)):
+        return str(val)
+    return None
+
+# --- Python 3.10+: 型ユニオン演算子 | ---
+# typing のインポート不要、Optional[T] は T | None に統一、isinstance でも利用可能
+def modern_func(val: int | str, timeout: float | None = None) -> str | None:
+    # 実行時判定でもタプルの代わりに | を使用可能
+    if isinstance(val, int | str):
+        return str(val)
+    return None
+
+print(legacy_func(100))
+print(modern_func(200))
+```
+
+---
+
+## 4. 最小コード例
 
 Python 3.10 以降で動作する型ユニオン演算子と `isinstance` の連携例です。
 
@@ -62,7 +90,7 @@ Type expression: int | str
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **Python 3.7〜3.9環境への配慮**:
   Python 3.9以前の環境では `int | str` は `TypeError: unsupported operand type(s) for |: 'type' and 'type'` になります。
@@ -79,7 +107,7 @@ Type expression: int | str
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py310|Python 3.10 概要]]
 - [[typing/py35/102-type-hints-basics|102-type-hints-basics]]
@@ -88,7 +116,7 @@ Type expression: int | str
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 604 – Allow writing union types as X | Y](https://peps.python.org/pep-0604/)
 - [Python 3.10 What's New: PEP 604](https://docs.python.org/3/whatsnew/3.10.html#pep-604-new-type-union-operator)

@@ -42,7 +42,41 @@ PEP 634 / 635 / 636 は、他言語（Scala、Rust等）で強力な機能とし
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.9 以前の `if / isinstance / dict.get` による複雑な分岐と、Python 3.10 の構造的パターンマッチングの比較です。
+
+```python
+# --- 従来（Python 3.9以前）: 型チェック、キー存在確認、値の取り出しが分散 ---
+def handle_event_legacy(event):
+    if isinstance(event, dict) and event.get("type") == "click":
+        pos = event.get("position")
+        if isinstance(pos, (list, tuple)) and len(pos) == 2:
+            x, y = pos
+            return f"Legacy: Clicked at ({x}, {y})"
+    elif isinstance(event, dict) and event.get("type") == "quit":
+        return "Legacy: Quit"
+    return "Legacy: Unknown"
+
+# --- Python 3.10+: 構造的パターンマッチング ---
+# 形状の検証、特定キーの抽出、要素のアンパックを1ステップで宣言
+def handle_event_modern(event):
+    match event:
+        case {"type": "click", "position": [x, y]}:
+            return f"Modern: Clicked at ({x}, {y})"
+        case {"type": "quit"}:
+            return "Modern: Quit"
+        case _:
+            return "Modern: Unknown"
+
+sample = {"type": "click", "position": [10, 20]}
+print(handle_event_legacy(sample))
+print(handle_event_modern(sample))
+```
+
+---
+
+## 4. 最小コード例
 
 Python 3.10 以降で動作する、コマンド解釈処理のパターンマッチ例です。
 
@@ -82,7 +116,7 @@ Batch processing: cmd1 and 2 others
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **単純な値の比較における濫用**:
   単なる数値や文字列の完全一致分岐であれば、従来の辞書ディスパッチ（`handlers.get(key)()`）や単純な `if/elif` の方が軽量で直感的な場合があります。複雑なデータ形状の分解やアンパックを伴う場面で最も威力を発揮します。
@@ -102,7 +136,7 @@ Batch processing: cmd1 and 2 others
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py310|Python 3.10 概要]]
 - [[language/py38/401-walrus-operator|401-walrus-operator]]
@@ -110,7 +144,7 @@ Batch processing: cmd1 and 2 others
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 634 – Structural Pattern Matching: Specification](https://peps.python.org/pep-0634/)
 - [PEP 636 – Structural Pattern Matching: Tutorial](https://peps.python.org/pep-0636/)

@@ -34,7 +34,41 @@ merged_dict = {**dict_a, "extra": True, **dict_b}
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.4 以前のコレクション結合・辞書マージ手法と、PEP 448 によるアンパック一般化の比較です。
+
+```python
+# --- 1. リスト / シーケンスの結合 ---
+base = [1, 2]
+extra = (3, 4)
+
+# 従来（Python 3.4以前）: + 演算子では型の一致が必要、または extend() で破壊的操作が必要
+legacy_list = list(base) + list(extra) + [5]
+
+# Python 3.5+ (PEP 448): 異なるイテラブルも1つのリテラル内で直接展開
+modern_list = [0, *base, *extra, 5]
+
+
+# --- 2. 辞書のマージ ---
+defaults = {"host": "localhost", "port": 8080}
+custom = {"port": 9000, "debug": True}
+
+# 従来（Python 3.4以前）: copy() と update() の複数行手続きが必要
+legacy_dict = defaults.copy()
+legacy_dict.update(custom)
+legacy_dict["version"] = "1.0"
+
+# Python 3.5+ (PEP 448): 辞書リテラル内で非破壊的に1行で構築
+modern_dict = {**defaults, **custom, "version": "1.0"}
+
+print("Modern list:", modern_list)
+print("Modern dict:", modern_dict)
+```
+
+---
+
+## 4. 最小コード例
 
 ```python
 default_config = {"host": "localhost", "port": 8080, "debug": False}
@@ -59,7 +93,7 @@ All items: [0, 1, 2, 3, 4, 5]
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **辞書結合演算子（Python 3.9+）との関係**:
   Python 3.9 で辞書マージ演算子 `d1 | d2`（PEP 584）が導入されました。現在では辞書の単純な結合には `|` の方が好まれる傾向がありますが、インラインで新しいキーを追加しながら結合する際には `{**d1, "new": 1}` が依然として重宝されます。
@@ -75,13 +109,13 @@ All items: [0, 1, 2, 3, 4, 5]
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py35|Python 3.5 概要]]
 - [[language/py39/501-dict-union-operators|501-dict-union-operators]]
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 448 – Additional Unpacking Generalizations](https://peps.python.org/pep-0448/)

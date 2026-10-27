@@ -38,9 +38,37 @@ raw = f"デバッグ: {msg!r}"    # repr形式で展開
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
 
-Python 3.6 以降で動作する f-strings の基本例です。
+従来の `%` 演算子や `str.format()` と、Python 3.6 の `f-strings` の記述比較です。
+
+```python
+name = "Alice"
+score = 87.654
+items = ["apple", "banana"]
+
+# --- 従来 1: % 演算子（タプル化や型指定子の記述が必要でミスを誘発しやすい） ---
+legacy_percent = "User: %s, Score: %.1f, Items: %d" % (name.upper(), score, len(items))
+
+# --- 従来 2: str.format()（変数名の反復や末尾での指定が必要で冗長） ---
+legacy_format = "User: {name}, Score: {score:.1f}, Items: {count}".format(
+    name=name.upper(), score=score, count=len(items)
+)
+
+# --- Python 3.6+: f-strings（式を埋め込み可能で直感的かつ高速） ---
+modern_fstring = f"User: {name.upper()}, Score: {score:.1f}, Items: {len(items)}"
+
+print(legacy_percent)
+print(legacy_format)
+print(modern_fstring)
+# 出力結果はすべて一致: User: ALICE, Score: 87.7, Items: 2
+```
+
+---
+
+## 4. 最小コード例
+
+Python 3.6 以降で動作する f-strings の基本例（書式指定子と変換フラグ）です。
 
 ```python
 name = "Alice"
@@ -51,7 +79,7 @@ items = ["apple", "banana"]
 message = f"User: {name.upper()}, Score: {score:.1f}, Items: {len(items)}"
 print(message)
 
-# repr変換フラグ
+# repr変換フラグ（!r）
 debug_info = f"Raw items: {items!r}"
 print(debug_info)
 ```
@@ -64,7 +92,7 @@ Raw items: ['apple', 'banana']
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **セキュリティ（SQLインジェクション等のリスク）**:
   SQLクエリやシェルコマンドの構築に f-strings を直接使用してはいけません。エスケープ処理が行われないため、SQLインジェクション等の脆弱性を生みます（安全な構造化テンプレートは Python 3.14 の PEP 750 `t-strings` を参照）。
@@ -82,7 +110,7 @@ Raw items: ['apple', 'banana']
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py36|Python 3.6 概要]]
 - [[language/py312/802-syntactic-formalization-fstrings|802-syntactic-formalization-fstrings]]
@@ -90,7 +118,7 @@ Raw items: ['apple', 'banana']
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 498 – Literal String Interpolation](https://peps.python.org/pep-0498/)
 - [Python 3.6 What's New: PEP 498](https://docs.python.org/3/whatsnew/3.6.html#pep-498-formatted-string-literals)

@@ -44,7 +44,43 @@ PEP 695 は、Pythonの文法そのものを拡張し、モダンな言語（Typ
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.11 以前の `TypeVar` / `Generic` / `TypeAlias` と、Python 3.12 の型パラメータ構文（PEP 695）の比較です。
+
+```python
+# --- 従来（Python 3.11以前）: モジュールインポートと冗長な定義 ---
+from typing import Generic, TypeVar
+from typing_extensions import TypeAlias  # 3.10以降は typing.TypeAlias
+
+T = TypeVar("T")  # 大域スコープを汚染する型変数定義
+LegacyAlias: TypeAlias = list[T]
+
+class LegacyBox(Generic[T]):
+    def __init__(self, value: T) -> None:
+        self.value = value
+
+def legacy_identity(val: T) -> T:
+    return val
+
+# --- Python 3.12+: PEP 695 型パラメータ構文 ---
+# TypeVar や Generic の import 不要。スコープ付き型パラメータを自然に記述
+type ModernAlias[T] = list[T]
+
+class ModernBox[T]:
+    def __init__(self, value: T) -> None:
+        self.value = value
+
+def modern_identity[T](val: T) -> T:
+    return val
+
+print(legacy_identity("legacy"))
+print(modern_identity("modern"))
+```
+
+---
+
+## 4. 最小コード例
 
 Python 3.12 以降で動作する、PEP 695 構文によるジェネリックスタックと型エイリアスの例です。
 
@@ -81,7 +117,7 @@ Duplicate: (3.14, 3.14)
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **後方互換性（Python 3.11以下）**:
   PEP 695 はPythonのパーサ・文法レベルの変更であるため、Python 3.11以下の環境では `SyntaxError` となります。`from __future__ import annotations` を付けても回避できません。ライブラリ開発等で 3.11以前をサポートする場合は従来の `TypeVar` / `typing.TypeAlias` 記法を維持する必要があります。
@@ -95,7 +131,7 @@ Duplicate: (3.14, 3.14)
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py312|Python 3.12 概要]]
 - [[typing/py35/102-type-hints-basics|102-type-hints-basics]]
@@ -105,7 +141,7 @@ Duplicate: (3.14, 3.14)
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 695 – Type Parameter Syntax](https://peps.python.org/pep-0695/)
 - [Python 3.12 What's New: Type Parameter Syntax](https://docs.python.org/3/whatsnew/3.12.html#pep-695-type-parameter-syntax)

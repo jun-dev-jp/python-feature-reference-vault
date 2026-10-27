@@ -38,7 +38,32 @@ Python 3.15 は **PEP 810** により、新しいソフトキーワード `lazy`
 
 ---
 
-## 3. 最小コード例
+## 3. 従来手法との比較
+
+Python 3.14 以前の遅延読み込みハック（関数内インポートや importlib）と、Python 3.15 の `lazy import`（PEP 810）の比較です。
+
+```python
+# --- 従来（Python 3.14以前）: 関数内インポートによる対症療法 ---
+# モジュール先頭で依存関係が一覧できず、関数が呼ばれるたびに import 文のオーバーヘッドが発生
+def process_data_legacy(payload: str):
+    import json  # 関数ローカルで遅延ロード
+    return json.loads(payload)
+
+# --- Python 3.15+: lazy import (PEP 810) ---
+# ファイル先頭で宣言的に記述でき、PEP 8 の「インポートは先頭にまとめる」原則を遵守。
+# 実際に json の属性にアクセスするまでロードが遅延される。
+lazy import json
+
+def process_data_modern(payload: str):
+    return json.loads(payload)
+
+print(process_data_legacy('{"mode": "legacy"}'))
+print(process_data_modern('{"mode": "modern"}'))
+```
+
+---
+
+## 4. 最小コード例
 
 ```python
 # Python 3.15 ネイティブ遅延インポート構文
@@ -63,7 +88,7 @@ Parsed data: {'version': '3.15'}
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **グローバル設定**:
   コマンドラインオプション `-X lazy_imports=all` または環境変数 `PYTHON_LAZY_IMPORTS=all` を指定することで、既存コードを書き換えずに全インポートを遅延化できます。
@@ -77,7 +102,7 @@ Parsed data: {'version': '3.15'}
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py315|Python 3.15 概要]]
 - [[language/py315/1502-frozendict-and-sentinel|1502-frozendict-and-sentinel]]
@@ -85,7 +110,7 @@ Parsed data: {'version': '3.15'}
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 810 – Explicit Lazy Imports](https://peps.python.org/pep-0810/)
 - [What's New In Python 3.15: PEP 810](https://docs.python.org/3.15/whatsnew/3.15.html#pep-810-explicit-lazy-imports)

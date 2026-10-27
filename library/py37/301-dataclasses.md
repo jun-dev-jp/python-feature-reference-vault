@@ -41,7 +41,44 @@ class Point:
 
 ---
 
-## 3. 最小コード例
+## 3. 従来の手法との比較
+
+ボイラープレートを手書きしていた従来のクラス定義と、Python 3.7 の `@dataclass` の比較です。
+
+```python
+# --- 従来（手作業でのボイラープレート記述） ---
+# __init__, __repr__, __eq__ などを手動で定義する必要があり、属性追加時のメンテ漏れが起きやすい。
+class LegacyItem:
+    def __init__(self, name: str, price: float):
+        self.name = name
+        self.price = price
+
+    def __repr__(self) -> str:
+        return f"LegacyItem(name={self.name!r}, price={self.price!r})"
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, LegacyItem):
+            return NotImplemented
+        return (self.name, self.price) == (other.name, other.price)
+
+# --- Python 3.7+: dataclasses ---
+# デコレータと型アノテーションにより、同等の特殊メソッド群を宣言的に自動生成。
+from dataclasses import dataclass
+
+@dataclass
+class ModernItem:
+    name: str
+    price: float
+
+item_leg = LegacyItem("Pen", 100.0)
+item_mod = ModernItem("Pen", 100.0)
+print(item_leg)
+print(item_mod)
+```
+
+---
+
+## 4. 最小コード例
 
 Python 3.7 以降で動作する基本的な `@dataclass` の利用例です。
 
@@ -78,7 +115,7 @@ Mutation failed as expected: FrozenInstanceError
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **ミュータブルなデフォルト値の禁止**:
   `tags: List[str] = []` と書くと `ValueError: mutable default <class 'list'> for field tags is not allowed: use default_factory` が発生します。必ず `field(default_factory=list)` を使用してください。
@@ -96,7 +133,7 @@ Mutation failed as expected: FrozenInstanceError
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py37|Python 3.7 概要]]
 - [[typing/py36/202-variable-annotations|202-variable-annotations]]
@@ -104,7 +141,7 @@ Mutation failed as expected: FrozenInstanceError
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 557 – Data Classes](https://peps.python.org/pep-0557/)
 - [Python 3.7 What's New: PEP 557](https://docs.python.org/3/whatsnew/3.7.html#pep-557-data-classes)

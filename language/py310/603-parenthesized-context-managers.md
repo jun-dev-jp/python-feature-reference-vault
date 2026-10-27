@@ -33,7 +33,39 @@ Python 3.9 で導入された新PEGパーサ（PEP 617）の表現力向上を�
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.9 以前の複数コンテキストマネージャ改行記法と、Python 3.10 の丸括弧付き `with` 構文の比較です。
+
+```python
+import io
+
+buf1 = io.StringIO("Data 1")
+buf2 = io.StringIO("Data 2")
+
+# --- 従来（Python 3.9以前）: バックスラッシュ行継続または横に長い1行 ---
+# 行末にスペースが混入すると SyntaxError になる脆弱性やスタイル崩れの温床だった
+with buf1 as f1, \
+     buf2 as f2:
+    legacy_res = f1.read() + f2.read()
+
+buf1.seek(0)
+buf2.seek(0)
+
+# --- Python 3.10+: 丸括弧による自然な複数行コンテキストマネージャ ---
+# 末尾カンマを許容し、PEP 8 の「丸括弧内での自然な改行」スタイルに適合
+with (
+    buf1 as f1,
+    buf2 as f2,
+):
+    modern_res = f1.read() + f2.read()
+
+print("Modern res:", modern_res)
+```
+
+---
+
+## 4. 最小コード例
 
 ```python
 import io
@@ -58,7 +90,7 @@ Merged result: Data from A & Data from B
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **Python 3.9以前との互換性**:
   Python 3.9 ではPEGパーサが採用されていましたが、この構文自体は公式には未解禁または不完全でした。Python 3.9以前をサポートするコードベースでは、`contextlib.ExitStack` を用いるか従来の1行記述が必要です。
@@ -79,13 +111,13 @@ Merged result: Data from A & Data from B
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py310|Python 3.10 概要]]
 - [[language/py310/601-pattern-matching|601-pattern-matching]]
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [Python 3.10 What's New: Parenthesized context managers](https://docs.python.org/3/whatsnew/3.10.html#parenthesized-context-managers-are-now-supported)

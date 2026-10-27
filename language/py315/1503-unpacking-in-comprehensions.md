@@ -35,7 +35,36 @@ merged_map = {**d for d in dict_stream}
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.14 以前の平坦化・内包表記記法と、Python 3.15（PEP 798）のアンパック内包表記の比較です。
+
+```python
+matrix = [[1, 2], [3, 4]]
+dict_list = [{"a": 1}, {"b": 2}]
+
+# --- 1. リストの平坦化 ---
+# 従来（Python 3.14以前）: 二重 for 節（順序が直感と逆に見えやすい）
+legacy_flat = [item for row in matrix for item in row]
+
+# Python 3.15+: リスト内包表記内での * アンパック
+modern_flat = [*row for row in matrix]
+
+# --- 2. 辞書リストの統合 ---
+# 従来（Python 3.14以前）: functools.reduce や 辞書内包表記での複雑な展開が必要
+import functools
+legacy_merged = functools.reduce(lambda acc, d: acc | d, dict_list, {})
+
+# Python 3.15+: 辞書内包表記内での ** アンパック
+modern_merged = {**d for d in dict_list}
+
+print("Flat:", modern_flat)
+print("Merged:", modern_merged)
+```
+
+---
+
+## 4. 最小コード例
 
 ```python
 # Python 3.15 PEP 798 内包表記アンパック
@@ -61,7 +90,7 @@ Merged dict: {'env': 'dev', 'debug': False, 'port': 8000}
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **可読性の向上**:
   `itertools.chain` をインポートすることなく、リストの平坦化が直感的な1行で記述可能になります。
@@ -74,7 +103,7 @@ Merged dict: {'env': 'dev', 'debug': False, 'port': 8000}
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py315|Python 3.15 概要]]
 - [[language/py35/103-unpacking-generalizations|103-unpacking-generalizations]]
@@ -82,7 +111,7 @@ Merged dict: {'env': 'dev', 'debug': False, 'port': 8000}
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 798 – Unpacking in Comprehensions](https://peps.python.org/pep-0798/)
 - [What's New In Python 3.15: PEP 798](https://docs.python.org/3.15/whatsnew/3.15.html#whatsnew315-unpacking-in-comprehensions)

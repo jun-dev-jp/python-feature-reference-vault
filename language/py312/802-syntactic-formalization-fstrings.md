@@ -36,7 +36,34 @@ output = f"Value: {data["key"] + '\n'}"  # 外側・内側ともにダブルク�
 
 ---
 
-## 3. 最小コード例
+## 3. 従来制限との比較
+
+Python 3.11 以前で構文エラーとなっていたパターンと、Python 3.12（PEP 701）で正式に解禁された記法の比較です。
+
+```python
+data = {"title": "Python 3.12 Guide", "author": "Alice"}
+items = ["apple", "banana"]
+
+# --- 従来（Python 3.11以前）の制約 ---
+# 1. クォートの使い分けが必要: f"{data['title']}" のように内外で引用符を変えなければ SyntaxError
+# 2. バックスラッシュ禁止: f"{'\n'.join(items)}" は構文エラーになるため、事前に改行文字を変数化する必要があった
+newline = "\n"
+legacy_joined = f"{newline.join(items)}"
+legacy_quote = f"{data['title']} by {data['author']}"
+
+# --- Python 3.12+: PEP 701 による制限撤廃 ---
+# 1. 内外で同一のクォート記号をそのまま再利用可能
+# 2. 波括弧内でバックスラッシュ（\n 等）を直接記述可能
+modern_joined = f"{'\n'.join(items)}"
+modern_quote = f"{data["title"]} by {data["author"]}"
+
+print("Modern quote:", modern_quote)
+print("Modern joined:\n" + modern_joined)
+```
+
+---
+
+## 4. 最小コード例
 
 Python 3.12 以降で動作する、制限緩和された f-strings の例です。
 
@@ -59,7 +86,7 @@ Tags:
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **Python 3.11以前との互換性**:
   Python 3.11以下の環境でこのコードを実行すると `SyntaxError` になります。ライブラリ開発などで 3.11以前をサポートする場合は、従来の「外側と内側で異なるクォートを使用する」ルールを維持してください。
@@ -70,7 +97,7 @@ Tags:
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py312|Python 3.12 概要]]
 - [[language/py36/201-fstrings|201-fstrings]]
@@ -78,7 +105,7 @@ Tags:
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 701 – Syntactic formalization of f-strings](https://peps.python.org/pep-0701/)
 - [Python 3.12 What's New: PEP 701](https://docs.python.org/3/whatsnew/3.12.html#pep-701-syntactic-formalization-of-f-strings)

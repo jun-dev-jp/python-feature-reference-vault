@@ -34,7 +34,32 @@ base |= extra               # base を直接破壊的更新
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.8 以前の辞書マージ手法と、Python 3.9 のパイプ演算子（`|` / `|=`）の比較です。
+
+```python
+d1 = {"a": 1, "b": 2}
+d2 = {"b": 99, "c": 3}
+
+# --- 従来 1: {**d1, **d2}（非破壊的だが直感的でなく型が dict に限定されがち） ---
+legacy_merged = {**d1, **d2}
+
+# --- 従来 2: copy() + update()（複数行の手続きが必要） ---
+legacy_update = d1.copy()
+legacy_update.update(d2)
+
+# --- Python 3.9+: 辞書結合演算子 | および インプレース更新 |= ---
+modern_merged = d1 | d2
+d1 |= d2  # d1 を直接更新
+
+print("Legacy merged:", legacy_merged)
+print("Modern merged:", modern_merged)
+```
+
+---
+
+## 4. 最小コード例
 
 ```python
 defaults = {"theme": "light", "notifications": True, "limit": 20}
@@ -59,7 +84,7 @@ Updated defaults: {'theme': 'light', 'notifications': False, 'limit': 20}
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **型の維持**:
   `defaultdict` やカスタムの `dict` サブクラスで `|` を呼ぶと、左辺の型が保持される設計になっています。
@@ -77,7 +102,7 @@ Updated defaults: {'theme': 'light', 'notifications': False, 'limit': 20}
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py39|Python 3.9 概要]]
 - [[language/py35/103-unpacking-generalizations|103-unpacking-generalizations]]
@@ -85,6 +110,6 @@ Updated defaults: {'theme': 'light', 'notifications': False, 'limit': 20}
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 584 – Add Union Operators To dict](https://peps.python.org/pep-0584/)

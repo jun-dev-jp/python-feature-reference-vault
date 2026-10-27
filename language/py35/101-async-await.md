@@ -41,7 +41,38 @@ async with lock:
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.4 以前の `@asyncio.coroutine` / `yield from` 方式と、Python 3.5 のネイティブ `async` / `await` 構文の比較です。
+
+```python
+import asyncio
+
+# --- 従来（Python 3.4以前）: ジェネレータベースのコルーチン ---
+# @asyncio.coroutine デコレータと yield from を使用。
+# 通常のジェネレータ関数と見分けがつかず、構文上の保護がなかった。
+@asyncio.coroutine
+def legacy_fetch(data_id):
+    yield from asyncio.sleep(0.01)
+    return {"id": data_id, "mode": "legacy"}
+
+# --- Python 3.5+: ネイティブコルーチン構文 ---
+# 専用キーワード async def と await により、コルーチンであることが言語仕様上明確。
+async def modern_fetch(data_id: int) -> dict:
+    await asyncio.sleep(0.01)
+    return {"id": data_id, "mode": "modern"}
+
+# 実行検証
+async def main():
+    res1 = yield from legacy_fetch(1)  # Python 3.4互換（3.8で非推奨、3.11で削除）
+    res2 = await modern_fetch(2)
+    print("Legacy:", res1)
+    print("Modern:", res2)
+```
+
+---
+
+## 4. 最小コード例
 
 Python 3.5 以降で動作する独立した非同期タスク実行の例です。
 
@@ -70,7 +101,7 @@ Result: {'id': 42, 'status': 'ok'}
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **コルーチンオブジェクトの放置**:
   `fetch_data(42)` を単体で呼び出し、`await` を忘れると実行されず、`RuntimeWarning: coroutine 'fetch_data' was never awaited` が発生します。
@@ -88,7 +119,7 @@ Result: {'id': 42, 'status': 'ok'}
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py35|Python 3.5 概要]]
 - [[language/py36/203-async-generators-comprehensions|203-async-generators-comprehensions]]
@@ -97,7 +128,7 @@ Result: {'id': 42, 'status': 'ok'}
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 492 – Coroutines with async and await syntax](https://peps.python.org/pep-0492/)
 - [Python 3.5 What's New: PEP 492](https://docs.python.org/3/whatsnew/3.5.html#pep-492-coroutines-with-async-and-await-syntax)

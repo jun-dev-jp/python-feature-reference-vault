@@ -36,7 +36,33 @@ while (line := file.readline()) != "":
 
 ---
 
-## 3. 最小コード例
+## 3. 従来記法との比較
+
+Python 3.7 以前の事前代入方式と、Python 3.8 の代入式（`:=`）の比較です。
+
+```python
+import re
+
+pattern = re.compile(r"^id:\s*(\d+)$")
+line = "id: 1042"
+
+# --- 従来（Python 3.7以前）: if文の手前で事前代入が必要 ---
+# 変数 match のスコープが広く残り、代入と条件判定が2行に分かれる
+match_leg = pattern.match(line)
+if match_leg:
+    val_leg = int(match_leg.group(1))
+    print("Legacy matched:", val_leg)
+
+# --- Python 3.8+: 代入式 := ---
+# 条件判定の式の中で直接代入を行い、行数を削減し意図を明確化
+if match_mod := pattern.match(line):
+    val_mod = int(match_mod.group(1))
+    print("Modern matched:", val_mod)
+```
+
+---
+
+## 4. 最小コード例
 
 Python 3.8 以降で動作する、正規表現マッチおよび内包表記での `:=` の活用例です。
 
@@ -68,7 +94,7 @@ Squares > 10: [16, 25]
 
 ---
 
-## 4. 実務上の指針と落とし穴
+## 5. 実務上の指針と落とし穴
 
 - **過剰な使用による可読性低下**:
   1行に詰め込みすぎるとコードの可読性が著しく低下します。「同じ計算の重複を防ぐ」「ループの初期化と更新の二重化を防ぐ」目的に絞って使用するのがベストプラクティスです。
@@ -84,7 +110,7 @@ Squares > 10: [16, 25]
 
 ---
 
-## 5. 関連リンク
+## 6. 関連リンク
 
 - [[versions/py38|Python 3.8 概要]]
 - [[language/py38/402-positional-only-parameters|402-positional-only-parameters]]
@@ -92,7 +118,7 @@ Squares > 10: [16, 25]
 
 ---
 
-## 6. 参考資料
+## 7. 参考資料
 
 - [PEP 572 – Assignment Expressions](https://peps.python.org/pep-0572/)
 - [Python 3.8 What's New: PEP 572](https://docs.python.org/3/whatsnew/3.8.html#assignment-expressions)
